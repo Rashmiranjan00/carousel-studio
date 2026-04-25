@@ -9,6 +9,7 @@ interface CarouselGridProps {
   slideWidth: number;
   slideHeight: number;
   showGrid?: boolean;
+  backgroundColor?: string;
 }
 
 export const CarouselGrid: React.FC<CarouselGridProps> = ({
@@ -16,6 +17,7 @@ export const CarouselGrid: React.FC<CarouselGridProps> = ({
   slideWidth,
   slideHeight,
   showGrid = false,
+  backgroundColor = "#ffffff",
 }) => {
   const canvasWidth = slidesCount * slideWidth;
   const dividerLines = [];
@@ -63,7 +65,7 @@ export const CarouselGrid: React.FC<CarouselGridProps> = ({
         y={0}
         width={canvasWidth}
         height={slideHeight}
-        fill="#ffffff"
+        fill={backgroundColor}
         name="bgRect"
       />
       {gridLines}

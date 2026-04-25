@@ -19,6 +19,7 @@ export const Canvas: React.FC = () => {
     setStageRef,
     showGrid,
     activeGuides,
+    backgroundColor,
   } = useEditorStore();
 
   const slideHeight = aspectRatio === "1:1" ? 1080 : 1350;
@@ -86,6 +87,7 @@ export const Canvas: React.FC = () => {
               slideWidth={SLIDE_WIDTH}
               slideHeight={slideHeight}
               showGrid={showGrid}
+              backgroundColor={backgroundColor}
             />
           </Layer>
           <Layer>

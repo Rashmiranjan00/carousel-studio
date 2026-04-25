@@ -19,6 +19,8 @@ export const Workspace: React.FC = () => {
     sendToBack,
     showGrid,
     toggleGrid,
+    backgroundColor,
+    setBackgroundColor,
   } = useEditorStore();
 
   return (
@@ -67,6 +69,30 @@ export const Workspace: React.FC = () => {
               />
               Show Grid
             </label>
+          </div>
+
+          <div className={styles.controlGroup}>
+            <label className={styles.label}>Background</label>
+            <div className={styles.colorPickerRow}>
+              <input
+                type="color"
+                value={backgroundColor}
+                onChange={(e) => setBackgroundColor(e.target.value)}
+                className={styles.colorInput}
+              />
+              <span className={styles.colorValue}>{backgroundColor}</span>
+            </div>
+            <div className={styles.presetColors}>
+              {["#ffffff", "#000000", "#f3f4f6", "#1e293b", "#6366F1", "#ec4899", "#f59e0b", "#10b981"].map((color) => (
+                <button
+                  key={color}
+                  className={`${styles.colorSwatch} ${backgroundColor === color ? styles.activeSwatch : ""}`}
+                  style={{ backgroundColor: color }}
+                  onClick={() => setBackgroundColor(color)}
+                  aria-label={`Set background to ${color}`}
+                />
+              ))}
+            </div>
           </div>
         </Panel>
 

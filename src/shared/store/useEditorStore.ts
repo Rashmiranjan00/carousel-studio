@@ -23,6 +23,7 @@ interface EditorState {
   stageRef: Konva.Stage | null;
   showGrid: boolean;
   activeGuides: { x: number[]; y: number[] };
+  backgroundColor: string;
 
   setSlidesCount: (count: number) => void;
   setAspectRatio: (ratio: AspectRatio) => void;
@@ -38,6 +39,7 @@ interface EditorState {
   toggleGrid: () => void;
   setActiveGuides: (guides: { x: number[]; y: number[] }) => void;
   clearActiveGuides: () => void;
+  setBackgroundColor: (color: string) => void;
 }
 
 export const useEditorStore = create<EditorState>((set) => ({
@@ -48,6 +50,7 @@ export const useEditorStore = create<EditorState>((set) => ({
   stageRef: null,
   showGrid: false,
   activeGuides: { x: [], y: [] },
+  backgroundColor: "#ffffff",
 
   setSlidesCount: (count) =>
     set({ slidesCount: Math.max(1, Math.min(10, count)) }),
@@ -143,4 +146,6 @@ export const useEditorStore = create<EditorState>((set) => ({
   setActiveGuides: (guides) => set({ activeGuides: guides }),
 
   clearActiveGuides: () => set({ activeGuides: { x: [], y: [] } }),
+
+  setBackgroundColor: (color) => set({ backgroundColor: color }),
 }));
