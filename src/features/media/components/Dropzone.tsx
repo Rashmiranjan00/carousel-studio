@@ -1,44 +1,43 @@
-import React, { useState, useCallback, useRef } from 'react';
-import { useEditorStore } from '@/shared/store/useEditorStore';
-import { processFile } from '../utils/fileProcessing';
-import { Button } from '@/shared/components/Button/Button';
-import styles from './Dropzone.module.css';
+import React, { useCallback, useRef, useState } from "react";
+import { useEditorStore } from "@/shared/store/useEditorStore";
+import { processFile } from "../utils/fileProcessing";
+import { Button } from "@/shared/components/Button/Button";
+import styles from "./Dropzone.module.css";
 
 export const Dropzone: React.FC = () => {
   const [isDragActive, setIsDragActive] = useState(false);
-  const addElement = useEditorStore(state => state.addElement);
+  const addElement = useEditorStore((state) => state.addElement);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFiles = useCallback(async (files: File[]) => {
-    const imageFiles = files.filter(f => f.type.startsWith('image/'));
-    for (const file of imageFiles) {
-      try {
-        const { src, width, height } = await processFile(file);
-        
-        // Scale down if too large initially
-        const MAX_INITIAL_SIZE = 400;
-        let finalWidth = width;
-        let finalHeight = height;
-        if (width > MAX_INITIAL_SIZE || height > MAX_INITIAL_SIZE) {
-          const ratio = Math.min(MAX_INITIAL_SIZE / width, MAX_INITIAL_SIZE / height);
-          finalWidth = width * ratio;
-          finalHeight = height * ratio;
-        }
+  const handleFiles = useCallback(
+    async (files: File[]) => {
+      const mediaFiles = files.filter(
+        (file) =>
+          file.type.startsWith("image/") || file.type.startsWith("video/"),
+      );
 
-        addElement({
-          type: 'image',
-          src,
-          x: 50, // Default drop position offset
-          y: 50,
-          width: finalWidth,
-          height: finalHeight,
-          rotation: 0
-        });
-      } catch (err) {
-        console.error("Failed to process file", err);
+      for (const file of mediaFiles) {
+        try {
+          const media = await processFile(file);
+
+          addElement({
+            type: media.type,
+            src: media.src,
+            mimeType: media.mimeType,
+            x: 50,
+            y: 50,
+            width: media.width,
+            height: media.height,
+            rotation: 0,
+            duration: media.duration,
+          });
+        } catch (err) {
+          console.error("Failed to process file", err);
+        }
       }
-    }
-  }, [addElement]);
+    },
+    [addElement],
+  );
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -67,26 +66,29 @@ export const Dropzone: React.FC = () => {
   };
 
   return (
-    <div 
-      className={`${styles.dropzone} ${isDragActive ? styles.active : ''}`}
+    <div
+      className={`${styles.dropzone} ${isDragActive ? styles.active : ""}`}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
     >
       <div className={styles.content}>
-        <p className={styles.title}>Drop images here</p>
-        <p className={styles.subtext}>Supports JPG, PNG</p>
-        <div style={{ marginTop: 'var(--spacing-md)' }}>
-          <Button variant="secondary" onClick={() => fileInputRef.current?.click()}>
+        <p className={styles.title}>Drop media here</p>
+        <p className={styles.subtext}>Supports JPG, PNG, MP4, MOV</p>
+        <div style={{ marginTop: "var(--spacing-md)" }}>
+          <Button
+            variant="secondary"
+            onClick={() => fileInputRef.current?.click()}
+          >
             Browse Files
           </Button>
           <input
             type="file"
             ref={fileInputRef}
             onChange={handleFileSelect}
-            accept="image/*"
+            accept="image/*,video/mp4,video/quicktime"
             multiple
-            style={{ display: 'none' }}
+            style={{ display: "none" }}
           />
         </div>
       </div>

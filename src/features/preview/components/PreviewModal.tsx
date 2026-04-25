@@ -1,8 +1,9 @@
-import React from 'react';
-import styles from './PreviewModal.module.css';
+import React from "react";
+import { ExportSlice } from "@/features/export/utils/slicingEngine";
+import styles from "./PreviewModal.module.css";
 
 interface PreviewModalProps {
-  slices: string[];
+  slices: ExportSlice[];
   onClose: () => void;
 }
 
@@ -18,7 +19,23 @@ export const PreviewModal: React.FC<PreviewModalProps> = ({ slices, onClose }) =
           <div className={styles.carouselTrack}>
             {slices.map((src, i) => (
               <div key={i} className={styles.slideWrapper}>
-                <img src={src} className={styles.slide} alt={`Slide ${i + 1}`} />
+                {src.kind === "video" ? (
+                  <video
+                    src={src.previewUrl}
+                    className={styles.slide}
+                    controls
+                    loop
+                    muted
+                    playsInline
+                  />
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={src.previewUrl}
+                    className={styles.slide}
+                    alt={`Slide ${i + 1}`}
+                  />
+                )}
               </div>
             ))}
           </div>

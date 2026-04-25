@@ -12,7 +12,6 @@ export function getSnapTargets(
   slideWidth: number,
   canvasHeight: number,
 ): { vertical: number[]; horizontal: number[] } {
-  const canvasWidth = slidesCount * slideWidth;
   const vertical: number[] = [];
   const horizontal: number[] = [];
 

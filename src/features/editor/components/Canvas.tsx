@@ -72,58 +72,65 @@ export const Canvas: React.FC = () => {
           height: slideHeight * scale,
         }}
       >
-        <Stage
-          ref={stageRef}
-          width={stageWidth * scale}
-          height={slideHeight * scale}
-          scaleX={scale}
-          scaleY={scale}
-          onMouseDown={checkDeselect}
-          onTouchStart={checkDeselect}
+        <div
+          className={styles.stageScaler}
+          style={{
+            width: stageWidth,
+            height: slideHeight,
+            transform: `scale(${scale})`,
+          }}
         >
-          <Layer>
-            <CarouselGrid
-              slidesCount={slidesCount}
-              slideWidth={SLIDE_WIDTH}
-              slideHeight={slideHeight}
-              showGrid={showGrid}
-              backgroundColor={backgroundColor}
-            />
-          </Layer>
-          <Layer>
-            {sortedElements.map((el) => (
-              <DraggableImage
-                key={el.id}
-                element={el}
-                isSelected={el.id === selectedElementId}
-                onSelect={() => selectElement(el.id)}
-                onChange={(newAttrs) => updateElement(el.id, newAttrs)}
-                canvasWidth={stageWidth}
-                canvasHeight={slideHeight}
+          <Stage
+            ref={stageRef}
+            width={stageWidth}
+            height={slideHeight}
+            onMouseDown={checkDeselect}
+            onTouchStart={checkDeselect}
+          >
+            <Layer>
+              <CarouselGrid
+                slidesCount={slidesCount}
+                slideWidth={SLIDE_WIDTH}
+                slideHeight={slideHeight}
+                showGrid={showGrid}
+                backgroundColor={backgroundColor}
               />
-            ))}
-          </Layer>
-          <Layer listening={false}>
-            {activeGuides.x.map((gx, i) => (
-              <Line
-                key={`gx-${i}`}
-                points={[gx, 0, gx, slideHeight]}
-                stroke="#6366F1"
-                strokeWidth={1}
-                dash={[6, 4]}
-              />
-            ))}
-            {activeGuides.y.map((gy, i) => (
-              <Line
-                key={`gy-${i}`}
-                points={[0, gy, stageWidth, gy]}
-                stroke="#6366F1"
-                strokeWidth={1}
-                dash={[6, 4]}
-              />
-            ))}
-          </Layer>
-        </Stage>
+            </Layer>
+            <Layer>
+              {sortedElements.map((el) => (
+                <DraggableImage
+                  key={el.id}
+                  element={el}
+                  isSelected={el.id === selectedElementId}
+                  onSelect={() => selectElement(el.id)}
+                  onChange={(newAttrs) => updateElement(el.id, newAttrs)}
+                  canvasWidth={stageWidth}
+                  canvasHeight={slideHeight}
+                />
+              ))}
+            </Layer>
+            <Layer listening={false}>
+              {activeGuides.x.map((gx, i) => (
+                <Line
+                  key={`gx-${i}`}
+                  points={[gx, 0, gx, slideHeight]}
+                  stroke="#6366F1"
+                  strokeWidth={1}
+                  dash={[6, 4]}
+                />
+              ))}
+              {activeGuides.y.map((gy, i) => (
+                <Line
+                  key={`gy-${i}`}
+                  points={[0, gy, stageWidth, gy]}
+                  stroke="#6366F1"
+                  strokeWidth={1}
+                  dash={[6, 4]}
+                />
+              ))}
+            </Layer>
+          </Stage>
+        </div>
       </div>
     </div>
   );

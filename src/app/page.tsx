@@ -1,18 +1,27 @@
 "use client";
 
-import React, { useState } from 'react';
-import dynamic from 'next/dynamic';
-import { Button } from '@/shared/components/Button/Button';
-import { useEditorStore } from '@/shared/store/useEditorStore';
-import { generateSlices } from '@/features/export/utils/slicingEngine';
-import { downloadSlicesAsZip } from '@/features/export/utils/zipGenerator';
-import { PreviewModal } from '@/features/preview/components/PreviewModal';
+import React, { useState } from "react";
+import dynamic from "next/dynamic";
+import { Button } from "@/shared/components/Button/Button";
+import { useEditorStore } from "@/shared/store/useEditorStore";
+import {
+  ExportSlice,
+  generateSlices,
+} from "@/features/export/utils/slicingEngine";
+import { downloadSlicesAsZip } from "@/features/export/utils/zipGenerator";
+import { PreviewModal } from "@/features/preview/components/PreviewModal";
 
-const DynamicWorkspace = dynamic(() => import('@/features/editor/components/Workspace').then(mod => mod.Workspace), { ssr: false });
+const DynamicWorkspace = dynamic(
+  () =>
+    import("@/features/editor/components/Workspace").then(
+      (mod) => mod.Workspace,
+    ),
+  { ssr: false },
+);
 
 export default function Home() {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-  const [previewSlices, setPreviewSlices] = useState<string[]>([]);
+  const [previewSlices, setPreviewSlices] = useState<ExportSlice[]>([]);
   const { stageRef, slidesCount, aspectRatio, selectElement } = useEditorStore();
   const [isExporting, setIsExporting] = useState(false);
 
@@ -20,8 +29,7 @@ export default function Home() {
 
   const handlePreview = async () => {
     if (!stageRef) return;
-    selectElement(null); // Deselect before slicing
-    // tiny timeout to ensure deselect re-render is complete
+    selectElement(null);
     setTimeout(async () => {
       const slices = await generateSlices(stageRef, slidesCount, slideHeight);
       setPreviewSlices(slices);
@@ -44,10 +52,10 @@ export default function Home() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <header style={{ height: 'var(--toolbar-height)', borderBottom: '1px solid var(--color-outline-variant)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 var(--spacing-md)', backgroundColor: 'var(--color-surface)' }}>
-        <h1 style={{ fontSize: '18px', fontWeight: '600', color: 'var(--color-primary)' }}>Carousel Studio</h1>
-        <div style={{ display: 'flex', gap: 'var(--spacing-sm)' }}>
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+      <header style={{ height: "var(--toolbar-height)", borderBottom: "1px solid var(--color-outline-variant)", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 var(--spacing-md)", backgroundColor: "var(--color-surface)" }}>
+        <h1 style={{ fontSize: "18px", fontWeight: "600", color: "var(--color-primary)" }}>Carousel Studio</h1>
+        <div style={{ display: "flex", gap: "var(--spacing-sm)" }}>
           <Button variant="secondary" onClick={handlePreview}>Preview</Button>
           <Button variant="primary" onClick={handleExport} disabled={isExporting}>
             {isExporting ? 'Exporting...' : 'Export ZIP'}

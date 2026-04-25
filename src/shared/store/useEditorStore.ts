@@ -7,12 +7,15 @@ export interface CanvasElement {
   id: string;
   type: "image" | "video";
   src: string;
+  mimeType?: string;
   x: number;
   y: number;
   width: number;
   height: number;
   rotation: number;
   zIndex: number;
+  slideIndex?: number;
+  duration?: number;
 }
 
 interface EditorState {
@@ -74,7 +77,7 @@ export const useEditorStore = create<EditorState>((set) => ({
   updateElement: (id, updates) =>
     set((state) => ({
       elements: state.elements.map((el) =>
-        el.id === id ? { ...el, ...updates } : el,
+        el.id === id ? sanitizeElement({ ...el, ...updates }) : el,
       ),
     })),
 
@@ -149,3 +152,15 @@ export const useEditorStore = create<EditorState>((set) => ({
 
   setBackgroundColor: (color) => set({ backgroundColor: color }),
 }));
+
+const sanitizeElement = (element: CanvasElement): CanvasElement => ({
+  ...element,
+  x: finiteOr(element.x, 0),
+  y: finiteOr(element.y, 0),
+  width: Math.max(5, finiteOr(element.width, 100)),
+  height: Math.max(5, finiteOr(element.height, 100)),
+  rotation: finiteOr(element.rotation, 0),
+});
+
+const finiteOr = (value: number | undefined, fallback: number) =>
+  value !== undefined && Number.isFinite(value) ? value : fallback;
