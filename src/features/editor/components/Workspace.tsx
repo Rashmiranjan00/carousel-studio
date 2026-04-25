@@ -83,7 +83,16 @@ export const Workspace: React.FC = () => {
               <span className={styles.colorValue}>{backgroundColor}</span>
             </div>
             <div className={styles.presetColors}>
-              {["#ffffff", "#000000", "#f3f4f6", "#1e293b", "#6366F1", "#ec4899", "#f59e0b", "#10b981"].map((color) => (
+              {[
+                "#ffffff",
+                "#000000",
+                "#f3f4f6",
+                "#1e293b",
+                "#6366F1",
+                "#ec4899",
+                "#f59e0b",
+                "#10b981",
+              ].map((color) => (
                 <button
                   key={color}
                   className={`${styles.colorSwatch} ${backgroundColor === color ? styles.activeSwatch : ""}`}
