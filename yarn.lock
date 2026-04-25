@@ -1420,6 +1420,7 @@ __metadata:
     eslint: "npm:^9"
     eslint-config-next: "npm:16.2.4"
     file-saver: "npm:^2.0.5"
+    geist: "npm:^1.7.0"
     jszip: "npm:^3.10.1"
     konva: "npm:^10.2.5"
     next: "npm:16.2.4"
@@ -2221,6 +2222,15 @@ __metadata:
   version: 1.2.3
   resolution: "functions-have-names@npm:1.2.3"
   checksum: 10c0/33e77fd29bddc2d9bb78ab3eb854c165909201f88c75faa8272e35899e2d35a8a642a15e7420ef945e1f64a9670d6aa3ec744106b2aa42be68ca5114025954ca
+  languageName: node
+  linkType: hard
+
+"geist@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "geist@npm:1.7.0"
+  peerDependencies:
+    next: ">=13.2.0"
+  checksum: 10c0/adb3f11d3431ca259a8fbc97acf193ff40259dcf00abf1e9598e284c2d2ca9e982822cb840d668e62be0b65ad9ac164c112bf1fdaac1d0c213882ace96b149a2
   languageName: node
   linkType: hard
 

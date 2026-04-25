@@ -104,3 +104,67 @@
 .dangerBtn:hover {
   background-color: var(--color-error-container);
 }
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-on-surface-variant);
+  cursor: pointer;
+}
+
+.checkbox {
+  accent-color: var(--color-primary);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.colorPickerRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.colorInput {
+  width: 36px;
+  height: 36px;
+  padding: 2px;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  background: none;
+}
+
+.colorValue {
+  font-size: 12px;
+  font-family: monospace;
+  color: var(--color-on-surface-variant);
+}
+
+.presetColors {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: var(--spacing-xs);
+}
+
+.colorSwatch {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-outline-variant);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.colorSwatch:hover {
+  border-color: var(--color-on-surface);
+}
+
+.activeSwatch {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-container);
+}
