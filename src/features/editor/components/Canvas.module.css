@@ -1,0 +1,15 @@
+.canvasContainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface-dim);
+  overflow: auto;
+  padding: var(--layout-margin);
+}
+
+.stageWrapper {
+  box-shadow: var(--shadow-level-3);
+  background-color: white;
+  transition: width 0.2s, height 0.2s;
+}

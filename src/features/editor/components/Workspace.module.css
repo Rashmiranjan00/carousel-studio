@@ -1,0 +1,106 @@
+.workspace {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--color-surface);
+  border-right: 1px solid var(--color-outline-variant);
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-md);
+  gap: var(--spacing-md);
+  overflow-y: auto;
+}
+
+.mainCanvasArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-surface-dim);
+  overflow: hidden;
+}
+
+.panel {
+  flex-shrink: 0;
+}
+
+.controlGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.controlGroup:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-on-surface-variant);
+}
+
+.rangeInput {
+  width: 100%;
+  accent-color: var(--color-primary);
+}
+
+.buttonGroup {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.ratioBtn {
+  flex: 1;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--color-outline-variant);
+  background-color: var(--color-surface-container-lowest);
+  border-radius: var(--radius-sm);
+  color: var(--color-on-surface);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.ratioBtn.active {
+  background-color: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+  border-color: var(--color-primary);
+}
+
+.actionBtn {
+  flex: 1;
+  padding: var(--spacing-sm);
+  background-color: var(--color-surface-container);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-on-surface);
+}
+
+.actionBtn:hover {
+  background-color: var(--color-surface-container-high);
+}
+
+.dangerBtn {
+  width: 100%;
+  padding: var(--spacing-sm);
+  background-color: transparent;
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: var(--spacing-xs);
+  transition: all 0.2s;
+}
+
+.dangerBtn:hover {
+  background-color: var(--color-error-container);
+}

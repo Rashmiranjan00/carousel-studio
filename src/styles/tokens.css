@@ -1,0 +1,51 @@
+:root {
+  /* Colors */
+  --color-primary: #6366F1;
+  --color-primary-container: #6063ee;
+  --color-on-primary: #ffffff;
+  
+  --color-secondary: #0F172A;
+  --color-on-secondary: #ffffff;
+
+  --color-background: #fcf8ff;
+  --color-on-background: #1b1b23;
+
+  --color-surface: #ffffff;
+  --color-surface-dim: #dbd8e4;
+  --color-surface-container: #efecf8;
+  --color-surface-container-low: #f5f2fe;
+  --color-surface-container-lowest: #ffffff;
+  --color-on-surface: #1b1b23;
+  --color-on-surface-variant: #464554;
+  
+  --color-outline: #767586;
+  --color-outline-variant: #c7c4d7;
+  
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+
+  /* Typography */
+  --font-family-base: 'Inter', sans-serif;
+  
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 40px;
+  --layout-margin: 24px;
+  --sidebar-width: 280px;
+  --toolbar-height: 56px;
+
+  /* Radius */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+
+  /* Elevation / Shadows */
+  --shadow-level-1: 0 0 0 1px #E2E8F0;
+  --shadow-level-2: 0px 4px 20px rgba(0, 0, 0, 0.08);
+  --shadow-level-3: 0px 8px 30px rgba(0, 0, 0, 0.12);
+}

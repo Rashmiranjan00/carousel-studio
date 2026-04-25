@@ -1,0 +1,35 @@
+.dropzone {
+  border: 2px dashed var(--color-outline-variant);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-xl) var(--spacing-md);
+  text-align: center;
+  transition: all 0.2s ease;
+  background-color: var(--color-surface-container-lowest);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+}
+
+.dropzone.active {
+  border-color: var(--color-primary);
+  background-color: var(--color-surface-container-low);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.title {
+  color: var(--color-on-surface);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.subtext {
+  color: var(--color-on-surface-variant);
+  font-size: 12px;
+}
