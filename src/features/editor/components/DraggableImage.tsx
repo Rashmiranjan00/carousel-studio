@@ -83,7 +83,16 @@ export const DraggableImage: React.FC<DraggableImageProps> = ({
       {isSelected && (
         <Transformer
           ref={trRef}
+          keepRatio={true}
           flipEnabled={false}
+          rotationSnaps={[0, 90, 180, 270]}
+          rotationSnapTolerance={5}
+          borderStroke="#6366F1"
+          borderStrokeWidth={1.5}
+          anchorStroke="#6366F1"
+          anchorFill="#ffffff"
+          anchorSize={8}
+          anchorCornerRadius={2}
           boundBoxFunc={(oldBox, newBox) => {
             if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
               return oldBox;
