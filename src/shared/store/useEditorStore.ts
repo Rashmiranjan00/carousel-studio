@@ -30,6 +30,8 @@ interface EditorState {
   removeElement: (id: string) => void;
   selectElement: (id: string | null) => void;
   bringToFront: (id: string) => void;
+  bringForward: (id: string) => void;
+  sendBackward: (id: string) => void;
   sendToBack: (id: string) => void;
   setStageRef: (ref: Konva.Stage | null) => void;
   toggleGrid: () => void;
@@ -85,6 +87,38 @@ export const useEditorStore = create<EditorState>((set) => ({
         elements: state.elements.map((el) =>
           el.id === id ? { ...el, zIndex: maxZ + 1 } : el,
         ),
+      };
+    }),
+
+  bringForward: (id) =>
+    set((state) => {
+      const sorted = [...state.elements].sort((a, b) => a.zIndex - b.zIndex);
+      const idx = sorted.findIndex((el) => el.id === id);
+      if (idx === -1 || idx === sorted.length - 1) return state;
+      const current = sorted[idx];
+      const above = sorted[idx + 1];
+      return {
+        elements: state.elements.map((el) => {
+          if (el.id === current.id) return { ...el, zIndex: above.zIndex };
+          if (el.id === above.id) return { ...el, zIndex: current.zIndex };
+          return el;
+        }),
+      };
+    }),
+
+  sendBackward: (id) =>
+    set((state) => {
+      const sorted = [...state.elements].sort((a, b) => a.zIndex - b.zIndex);
+      const idx = sorted.findIndex((el) => el.id === id);
+      if (idx <= 0) return state;
+      const current = sorted[idx];
+      const below = sorted[idx - 1];
+      return {
+        elements: state.elements.map((el) => {
+          if (el.id === current.id) return { ...el, zIndex: below.zIndex };
+          if (el.id === below.id) return { ...el, zIndex: current.zIndex };
+          return el;
+        }),
       };
     }),
 

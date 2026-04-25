@@ -14,6 +14,8 @@ export const Workspace: React.FC = () => {
     selectedElementId,
     removeElement,
     bringToFront,
+    bringForward,
+    sendBackward,
     sendToBack,
     showGrid,
     toggleGrid,
@@ -80,13 +82,27 @@ export const Workspace: React.FC = () => {
                   className={styles.actionBtn}
                   onClick={() => bringToFront(selectedElementId)}
                 >
+                  Bring to Front
+                </button>
+                <button
+                  className={styles.actionBtn}
+                  onClick={() => bringForward(selectedElementId)}
+                >
                   Bring Forward
+                </button>
+              </div>
+              <div className={styles.buttonGroup}>
+                <button
+                  className={styles.actionBtn}
+                  onClick={() => sendBackward(selectedElementId)}
+                >
+                  Send Backward
                 </button>
                 <button
                   className={styles.actionBtn}
                   onClick={() => sendToBack(selectedElementId)}
                 >
-                  Send Backward
+                  Send to Back
                 </button>
               </div>
               <button
