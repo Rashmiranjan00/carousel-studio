@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
 import { Image, Transformer } from "react-konva";
 import Konva from "konva";
 import useImage from "use-image";
-import { CanvasElement } from "@/shared/store/useEditorStore";
+import { CanvasElement, useEditorStore } from "@/shared/store/useEditorStore";
+import { detectSnap, getSnapTargets } from "@/features/editor/utils/snapEngine";
+import { SLIDE_WIDTH } from "./Canvas";
 
 interface DraggableImageProps {
   element: CanvasElement;
@@ -24,6 +26,12 @@ export const DraggableImage: React.FC<DraggableImageProps> = ({
   const [image] = useImage(element.src);
   const imageRef = useRef<Konva.Image>(null);
   const trRef = useRef<Konva.Transformer>(null);
+  const { slidesCount, setActiveGuides, clearActiveGuides } = useEditorStore();
+
+  const snapTargets = useMemo(
+    () => getSnapTargets(slidesCount, SLIDE_WIDTH, canvasHeight),
+    [slidesCount, canvasHeight],
+  );
 
   useEffect(() => {
     if (isSelected && trRef.current && imageRef.current) {
@@ -55,7 +63,21 @@ export const DraggableImage: React.FC<DraggableImageProps> = ({
         dragBoundFunc={dragBoundFunc}
         onClick={onSelect}
         onTap={onSelect}
+        onDragMove={(e) => {
+          const node = e.target;
+          const result = detectSnap(
+            node.x(),
+            node.y(),
+            element.width,
+            element.height,
+            snapTargets,
+          );
+          node.x(result.x);
+          node.y(result.y);
+          setActiveGuides({ x: result.guidesX, y: result.guidesY });
+        }}
         onDragEnd={(e) => {
+          clearActiveGuides();
           onChange({
             x: e.target.x(),
             y: e.target.y(),

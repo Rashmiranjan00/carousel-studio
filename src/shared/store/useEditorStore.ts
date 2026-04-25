@@ -22,6 +22,7 @@ interface EditorState {
   selectedElementId: string | null;
   stageRef: Konva.Stage | null;
   showGrid: boolean;
+  activeGuides: { x: number[]; y: number[] };
 
   setSlidesCount: (count: number) => void;
   setAspectRatio: (ratio: AspectRatio) => void;
@@ -35,6 +36,8 @@ interface EditorState {
   sendToBack: (id: string) => void;
   setStageRef: (ref: Konva.Stage | null) => void;
   toggleGrid: () => void;
+  setActiveGuides: (guides: { x: number[]; y: number[] }) => void;
+  clearActiveGuides: () => void;
 }
 
 export const useEditorStore = create<EditorState>((set) => ({
@@ -44,6 +47,7 @@ export const useEditorStore = create<EditorState>((set) => ({
   selectedElementId: null,
   stageRef: null,
   showGrid: false,
+  activeGuides: { x: [], y: [] },
 
   setSlidesCount: (count) =>
     set({ slidesCount: Math.max(1, Math.min(10, count)) }),
@@ -135,4 +139,8 @@ export const useEditorStore = create<EditorState>((set) => ({
   setStageRef: (ref) => set({ stageRef: ref }),
 
   toggleGrid: () => set((state) => ({ showGrid: !state.showGrid })),
+
+  setActiveGuides: (guides) => set({ activeGuides: guides }),
+
+  clearActiveGuides: () => set({ activeGuides: { x: [], y: [] } }),
 }));

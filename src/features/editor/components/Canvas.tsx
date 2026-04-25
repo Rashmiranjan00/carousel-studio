@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { Stage, Layer } from "react-konva";
+import { Stage, Layer, Line } from "react-konva";
 import Konva from "konva";
 import { useEditorStore } from "@/shared/store/useEditorStore";
 import { DraggableImage } from "./DraggableImage";
@@ -18,6 +18,7 @@ export const Canvas: React.FC = () => {
     updateElement,
     setStageRef,
     showGrid,
+    activeGuides,
   } = useEditorStore();
 
   const slideHeight = aspectRatio === "1:1" ? 1080 : 1350;
@@ -97,6 +98,26 @@ export const Canvas: React.FC = () => {
                 onChange={(newAttrs) => updateElement(el.id, newAttrs)}
                 canvasWidth={stageWidth}
                 canvasHeight={slideHeight}
+              />
+            ))}
+          </Layer>
+          <Layer listening={false}>
+            {activeGuides.x.map((gx, i) => (
+              <Line
+                key={`gx-${i}`}
+                points={[gx, 0, gx, slideHeight]}
+                stroke="#6366F1"
+                strokeWidth={1}
+                dash={[6, 4]}
+              />
+            ))}
+            {activeGuides.y.map((gy, i) => (
+              <Line
+                key={`gy-${i}`}
+                points={[0, gy, stageWidth, gy]}
+                stroke="#6366F1"
+                strokeWidth={1}
+                dash={[6, 4]}
               />
             ))}
           </Layer>
