@@ -1,17 +1,26 @@
-import React, { useEffect, useRef } from 'react';
-import { Image, Transformer } from 'react-konva';
-import Konva from 'konva';
-import useImage from 'use-image';
-import { CanvasElement } from '@/shared/store/useEditorStore';
+import React, { useEffect, useRef } from "react";
+import { Image, Transformer } from "react-konva";
+import Konva from "konva";
+import useImage from "use-image";
+import { CanvasElement } from "@/shared/store/useEditorStore";
 
 interface DraggableImageProps {
   element: CanvasElement;
   isSelected: boolean;
   onSelect: () => void;
   onChange: (newAttrs: Partial<CanvasElement>) => void;
+  canvasWidth: number;
+  canvasHeight: number;
 }
 
-export const DraggableImage: React.FC<DraggableImageProps> = ({ element, isSelected, onSelect, onChange }) => {
+export const DraggableImage: React.FC<DraggableImageProps> = ({
+  element,
+  isSelected,
+  onSelect,
+  onChange,
+  canvasWidth,
+  canvasHeight,
+}) => {
   const [image] = useImage(element.src);
   const imageRef = useRef<Konva.Image>(null);
   const trRef = useRef<Konva.Transformer>(null);
@@ -22,6 +31,15 @@ export const DraggableImage: React.FC<DraggableImageProps> = ({ element, isSelec
       trRef.current.getLayer()?.batchDraw();
     }
   }, [isSelected]);
+
+  const dragBoundFunc = (pos: { x: number; y: number }) => {
+    const nodeWidth = element.width;
+    const nodeHeight = element.height;
+    return {
+      x: Math.max(0, Math.min(pos.x, canvasWidth - nodeWidth)),
+      y: Math.max(0, Math.min(pos.y, canvasHeight - nodeHeight)),
+    };
+  };
 
   return (
     <React.Fragment>
@@ -34,6 +52,7 @@ export const DraggableImage: React.FC<DraggableImageProps> = ({ element, isSelec
         height={element.height}
         rotation={element.rotation}
         draggable
+        dragBoundFunc={dragBoundFunc}
         onClick={onSelect}
         onTap={onSelect}
         onDragEnd={(e) => {
@@ -45,19 +64,19 @@ export const DraggableImage: React.FC<DraggableImageProps> = ({ element, isSelec
         onTransformEnd={() => {
           const node = imageRef.current;
           if (!node) return;
-          
+
           const scaleX = node.scaleX();
           const scaleY = node.scaleY();
-          
+
           node.scaleX(1);
           node.scaleY(1);
-          
+
           onChange({
             x: node.x(),
             y: node.y(),
             width: Math.max(5, node.width() * scaleX),
             height: Math.max(5, node.height() * scaleY),
-            rotation: node.rotation()
+            rotation: node.rotation(),
           });
         }}
       />

@@ -1,19 +1,28 @@
-import React, { useRef, useEffect } from 'react';
-import { Stage, Layer } from 'react-konva';
-import Konva from 'konva';
-import { useEditorStore } from '@/shared/store/useEditorStore';
-import { DraggableImage } from './DraggableImage';
-import { CarouselGrid } from './CarouselGrid';
-import styles from './Canvas.module.css';
+import React, { useRef, useEffect } from "react";
+import { Stage, Layer } from "react-konva";
+import Konva from "konva";
+import { useEditorStore } from "@/shared/store/useEditorStore";
+import { DraggableImage } from "./DraggableImage";
+import { CarouselGrid } from "./CarouselGrid";
+import styles from "./Canvas.module.css";
 
 export const SLIDE_WIDTH = 1080;
 
 export const Canvas: React.FC = () => {
-  const { slidesCount, aspectRatio, elements, selectedElementId, selectElement, updateElement, setStageRef } = useEditorStore();
-  
-  const slideHeight = aspectRatio === '1:1' ? 1080 : 1350;
+  const {
+    slidesCount,
+    aspectRatio,
+    elements,
+    selectedElementId,
+    selectElement,
+    updateElement,
+    setStageRef,
+    showGrid,
+  } = useEditorStore();
+
+  const slideHeight = aspectRatio === "1:1" ? 1080 : 1350;
   const stageWidth = slidesCount * SLIDE_WIDTH;
-  
+
   const stageRef = useRef<Konva.Stage>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -34,14 +43,17 @@ export const Canvas: React.FC = () => {
         setScale(Math.min(newScale, 1)); // Don't scale up past 100%
       }
     };
-    
+
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [stageWidth]);
 
-  const checkDeselect = (e: Konva.KonvaEventObject<MouseEvent | TouchEvent>) => {
-    const clickedOnEmpty = e.target === e.target.getStage() || e.target.hasName('bgRect');
+  const checkDeselect = (
+    e: Konva.KonvaEventObject<MouseEvent | TouchEvent>,
+  ) => {
+    const clickedOnEmpty =
+      e.target === e.target.getStage() || e.target.hasName("bgRect");
     if (clickedOnEmpty) {
       selectElement(null);
     }
@@ -51,7 +63,7 @@ export const Canvas: React.FC = () => {
 
   return (
     <div className={styles.canvasContainer} ref={containerRef}>
-      <div 
+      <div
         className={styles.stageWrapper}
         style={{
           width: stageWidth * scale,
@@ -68,10 +80,11 @@ export const Canvas: React.FC = () => {
           onTouchStart={checkDeselect}
         >
           <Layer>
-            <CarouselGrid 
-              slidesCount={slidesCount} 
-              slideWidth={SLIDE_WIDTH} 
-              slideHeight={slideHeight} 
+            <CarouselGrid
+              slidesCount={slidesCount}
+              slideWidth={SLIDE_WIDTH}
+              slideHeight={slideHeight}
+              showGrid={showGrid}
             />
           </Layer>
           <Layer>
@@ -82,6 +95,8 @@ export const Canvas: React.FC = () => {
                 isSelected={el.id === selectedElementId}
                 onSelect={() => selectElement(el.id)}
                 onChange={(newAttrs) => updateElement(el.id, newAttrs)}
+                canvasWidth={stageWidth}
+                canvasHeight={slideHeight}
               />
             ))}
           </Layer>
